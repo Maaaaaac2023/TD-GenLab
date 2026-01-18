@@ -1,0 +1,295 @@
+[
+    {
+        "coin_rewards": 180,
+        "wave_interval": 5.0,
+        "spawn_list": [
+            {
+                "event_interval": 1.6,
+                "spawn_point": 1,
+                "enemy_type": "skeleton"
+            },
+            {
+                "event_interval": 1.8,
+                "spawn_point": 5,
+                "enemy_type": "slime"
+            },
+            {
+                "event_interval": 1.24,
+                "spawn_point": 5,
+                "enemy_type": "slime"
+            },
+            {
+                "event_interval": 1.02,
+                "spawn_point": 5,
+                "enemy_type": "slime"
+            },
+            {
+                "event_interval": 1.4,
+                "spawn_point": 1,
+                "enemy_type": "slime"
+            }
+        ]
+    },
+    {
+        "coin_rewards": 190,
+        "wave_interval": 5.0,
+        "spawn_list": [
+            {
+                "event_interval": 1.63,
+                "spawn_point": 5,
+                "enemy_type": "skeleton"
+            },
+            {
+                "event_interval": 1.06,
+                "spawn_point": 5,
+                "enemy_type": "slime"
+            },
+            {
+                "event_interval": 1.49,
+                "spawn_point": 5,
+                "enemy_type": "slime"
+            },
+            {
+                "event_interval": 1.71,
+                "spawn_point": 5,
+                "enemy_type": "slime"
+            },
+            {
+                "event_interval": 1.46,
+                "spawn_point": 5,
+                "enemy_type": "slime"
+            }
+        ]
+    },
+    {
+        "coin_rewards": 190,
+        "wave_interval": 5.0,
+        "spawn_list": [
+            {
+                "event_interval": 1.89,
+                "spawn_point": 1,
+                "enemy_type": "skeleton"
+            },
+            {
+                "event_interval": 1.28,
+                "spawn_point": 1,
+                "enemy_type": "slime"
+            },
+            {
+                "event_interval": 1.84,
+                "spawn_point": 1,
+                "enemy_type": "slime"
+            },
+            {
+                "event_interval": 1.23,
+                "spawn_point": 5,
+                "enemy_type": "slime"
+            },
+            {
+                "event_interval": 1.48,
+                "spawn_point": 1,
+                "enemy_type": "slime"
+            },
+            {
+                "event_interval": 1.46,
+                "spawn_point": 1,
+                "enemy_type": "slime"
+            }
+        ]
+    },
+    {
+        "coin_rewards": 200,
+        "wave_interval": 5.0,
+        "spawn_list": [
+            {
+                "event_interval": 1.32,
+                "spawn_point": 1,
+                "enemy_type": "slime"
+            },
+            {
+                "event_interval": 1.93,
+                "spawn_point": 5,
+                "enemy_type": "slime"
+            },
+            {
+                "event_interval": 1.77,
+                "spawn_point": 5,
+                "enemy_type": "slime"
+            },
+            {
+                "event_interval": 1.09,
+                "spawn_point": 1,
+                "enemy_type": "slime"
+            },
+            {
+                "event_interval": 1.38,
+                "spawn_point": 5,
+                "enemy_type": "slime"
+            },
+            {
+                "event_interval": 1.87,
+                "spawn_point": 1,
+                "enemy_type": "slime"
+            }
+        ]
+    },
+    {
+        "coin_rewards": 200,
+        "wave_interval": 5.0,
+        "spawn_list": [
+            {
+                "event_interval": 1.05,
+                "spawn_point": 1,
+                "enemy_type": "slime"
+            },
+            {
+                "event_interval": 1.62,
+                "spawn_point": 5,
+                "enemy_type": "slime"
+            },
+            {
+                "event_interval": 1.11,
+                "spawn_point": 1,
+                "enemy_type": "slime"
+            },
+            {
+                "event_interval": 1.93,
+                "spawn_point": 1,
+                "enemy_type": "slime"
+            },
+            {
+                "event_interval": 1.02,
+                "spawn_point": 1,
+                "enemy_type": "slime"
+            },
+            {
+                "event_interval": 1.43,
+                "spawn_point": 1,
+                "enemy_type": "slime"
+            }
+        ]
+    },
+    {
+        "coin_rewards": 200,
+        "wave_interval": 5.0,
+        "spawn_list": [
+            {
+                "event_interval": 1.64,
+                "spawn_point": 1,
+                "enemy_type": "slime"
+            },
+            {
+                "event_interval": 1.92,
+                "spawn_point": 1,
+                "enemy_type": "slime"
+            },
+            {
+                "event_interval": 1.27,
+                "spawn_point": 5,
+                "enemy_type": "slime"
+            },
+            {
+                "event_interval": 1.55,
+                "spawn_point": 5,
+                "enemy_type": "slime"
+            },
+            {
+                "event_interval": 1.93,
+                "spawn_point": 1,
+                "enemy_type": "slime"
+            },
+            {
+                "event_interval": 1.89,
+                "spawn_point": 1,
+                "enemy_type": "slime"
+            }
+        ]
+    },
+    {
+        "coin_rewards": 210,
+        "wave_interval": 5.0,
+        "spawn_list": [
+            {
+                "event_interval": 1.85,
+                "spawn_point": 1,
+                "enemy_type": "slime"
+            },
+            {
+                "event_interval": 1.63,
+                "spawn_point": 5,
+                "enemy_type": "slime"
+            },
+            {
+                "event_interval": 1.49,
+                "spawn_point": 1,
+                "enemy_type": "slime"
+            },
+            {
+                "event_interval": 1.62,
+                "spawn_point": 5,
+                "enemy_type": "slime"
+            },
+            {
+                "event_interval": 1.36,
+                "spawn_point": 5,
+                "enemy_type": "slime"
+            },
+            {
+                "event_interval": 1.23,
+                "spawn_point": 5,
+                "enemy_type": "slime"
+            },
+            {
+                "event_interval": 1.18,
+                "spawn_point": 5,
+                "enemy_type": "slime"
+            }
+        ]
+    },
+    {
+        "coin_rewards": 220,
+        "wave_interval": 0.0,
+        "spawn_list": [
+            {
+                "event_interval": 1.3,
+                "spawn_point": 1,
+                "enemy_type": "slime"
+            },
+            {
+                "event_interval": 1.16,
+                "spawn_point": 1,
+                "enemy_type": "slime"
+            },
+            {
+                "event_interval": 1.47,
+                "spawn_point": 1,
+                "enemy_type": "slime"
+            },
+            {
+                "event_interval": 1.87,
+                "spawn_point": 5,
+                "enemy_type": "slime"
+            },
+            {
+                "event_interval": 1.73,
+                "spawn_point": 1,
+                "enemy_type": "slime"
+            },
+            {
+                "event_interval": 1.94,
+                "spawn_point": 1,
+                "enemy_type": "slime"
+            },
+            {
+                "event_interval": 1.5,
+                "spawn_point": 1,
+                "enemy_type": "slime"
+            },
+            {
+                "event_interval": 1.73,
+                "spawn_point": 1,
+                "enemy_type": "slime"
+            }
+        ]
+    }
+]
