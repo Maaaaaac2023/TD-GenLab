@@ -2,14 +2,13 @@
 
 ## About
 
-In this tower defence game prototype inspired by KingdomRush, you can not only build different towers using coins earned by defeating waves of enemies, but control a character with skills to battle, [download to play](https://github.com/WhythZ/KingdomRushLite/releases) or see the [showcase video](https://www.bilibili.com/video/BV1HjZ4YFEsT/?share_source=copy_web&vd_source=5ef86699cafaaf10c5dc362759c73a7d)
+In this tower defence game prototype inspired by KingdomRush, you can not only build different towers using coins earned by defeating waves of enemies, but control a character with skills to battle.
 
 - Click on Empty Tile: Build towers
 - Click on Home Tile: Upgrade towers
 - Press W/A/S/D: Move the character
 - Press 1/2: Release character skills
 
-![Cover.png](https://github.com/WhythZ/KingdomRushLite/blob/master/Cover.png)
 
 Short descriptions about the core functional classes which forms multiple extensible gameplay systems are listed below, notice that all managers are derived from singleton `Manager` base class
 
