@@ -116,30 +116,188 @@ Notice that the depended libraries are all in MSVC version, if you want to build
 
 # VAE相关
 
-tool.py:
-根据config.json内的敌人数据还有waves的格式制作的工具，用于生成测试的样本。(Waves_n.json,Level_n_Summary.csv由该文件生成的数据经过修改制成)
-以及模型生成的数据格式转换，使结果能用于游戏内。（Generated_Level_Diff_n_Generated.csv/json）
+## 概述
 
-vae.py
-输入：
-关卡特征数据：每个波次5种怪物数量：[goblin, goblin_priest, skeleton, slime, slime_king]和金币奖励：Coin Reward (归一化后的值),波次间隔:wave_interval
-条件变量：
-难度标签和归一化波次编号（难度标签由人工测试并标记）
+本项目使用条件变分自编码器（Conditional Variational Autoencoder, CVAE）实现基于难度的关卡自动生成系统。通过训练模型学习现有关卡的设计模式，能够根据指定的难度值生成符合游戏设计原则的新关卡，确保难度递增和敌人分布的合理性。
 
-输出：
-生成的关卡数据（Generated_Level_Diff_n_Generated.csv，包括每个波次敌人的数量，奖励的金币和波次间隔）
+## 项目结构
 
-训练损失函数设计：
-总损失函数：L = L_rec + β × L_kl
-重建损失 (L_rec)：均方误差(MSE)损失，衡量重建数据与原始数据的差距
-L_rec = MSE(x, x̂) = (1/n) × Σ(x_i - x̂_i)²
-KL散度正则化 (L_kl)：约束潜在空间分布接近标准正态分布
-L_kl = -0.5 × Σ[1 + log(σ²) - μ² - σ²]
-β系数 (β=0.005)：平衡重建质量与潜在空间正则化，小值确保模型优先关注数据重建
-训练策略：
-400训练轮次(epochs)，确保充分收敛
-Adam优化器 (学习率=0.001)
-批量大小=8 (匹配每关波次数量)
-早停机制：监控验证损失防止过拟合
+```
+VAE/vae/
+├── train.py              # 模型训练脚本
+├── test.py               # 关卡生成脚本（推理）
+├── utils/
+│   └── convert_utils.py  # 数据格式转换工具（JSON ↔ CSV）
+├── Level_1_Summary.csv   # 训练数据：关卡1摘要
+├── Level_2_Summary.csv   # 训练数据：关卡2摘要
+├── Level_3_Summary.csv   # 训练数据：关卡3摘要
+└── cvae_model.pth        # 训练好的模型权重（训练后生成）
+```
 
-使用：输入样本位置以及需要生成的难度值然后运行文件，将输出的关卡csv用tool.py转换之后就能用于游戏
+## 核心组件
+
+### 1. 数据转换工具 (`utils/convert_utils.py`)
+
+提供三种工作模式，支持数据格式的双向转换：
+
+- **模式1：生成新关卡** - 根据难度等级生成CSV和JSON文件
+- **模式2：json2csv** - 将游戏JSON格式转换为训练用的CSV格式
+- **模式3：csv2json** - 将生成的CSV格式转换回游戏可用的JSON格式
+
+**命令行使用：**
+
+```bash
+# JSON转CSV（准备训练数据）
+python convert_utils.py json2csv Waves.json -o Level_1_Summary.csv -d 1
+
+# CSV转JSON（生成游戏数据）
+python convert_utils.py csv2json Generated_Level_Diff_0.15.csv -o Waves.json
+```
+
+### 2. 训练脚本 (`train.py`)
+
+**功能：**
+
+- 加载预处理训练数据（`Level_1/2/3_Summary.csv`）
+- 训练CVAE模型并保存权重
+- 保存数据标准化器（scaler）和特征列表供推理使用
+- 生成训练损失曲线可视化
+
+**输入数据格式：**
+CSV文件包含以下特征列：
+
+- `Wave Number`: 波次编号（1-8）
+- `goblin`: 哥布林数量
+- `goblin_priest`: 哥布林祭司数量
+- `skeleton`: 骷髅数量
+- `slime`: 史莱姆数量
+- `slime_king`: 史莱姆王数量
+- `Coin Reward`: 金币奖励
+- `Wave Interval`: 波次间隔
+
+**条件变量：**
+
+- 难度标签：人工标注的难度值（0.0-1.0范围）
+- 归一化波次编号：将波次1-8归一化到[0,1]区间
+
+**输出：**
+
+- `cvae_model.pth`: 模型权重文件
+- `scaler.pkl`: 数据标准化器
+- `features.pkl`: 特征列表
+- `training_loss.png`: 训练损失曲线
+
+### 3. 推理脚本 (`test.py`)
+
+**功能：**
+
+- 加载训练好的模型和标准化器
+- 根据指定难度生成新关卡
+- 自动应用难度曲线控制
+- 保存生成的CSV文件和可视化图表
+- 验证生成的关卡是否符合难度递增原则
+
+**生成策略：**
+
+- 根据基础难度选择不同的难度曲线类型：
+  - 简单关卡（<0.3）：平缓线性增长
+  - 中等关卡（0.3-0.6）：中等线性增长
+  - 困难关卡（>0.6）：指数增长
+- 应用游戏设计规则：
+  - 史莱姆王和哥布林祭司不在第1波出现
+  - 金币奖励为10的倍数，最低50
+  - 波次间隔根据难度自动调整
+
+**输出：**
+
+- `Generated_Level_Diff_X.XX.csv`: 生成的关卡数据
+- `level_diff_X.XX_monsters.png`: 怪物分布可视化
+- `level_diff_X.XX_coins.png`: 金币奖励可视化
+
+## 模型架构
+
+### CVAE结构
+
+**编码器（Encoder）：**
+
+- 输入：关卡特征（6维）+ 条件变量（2维：难度+波次）
+- 隐藏层1：128维，ReLU激活
+- 隐藏层2：64维，ReLU激活
+- 输出：潜在空间参数（μ, log(σ²)），12维
+
+**解码器（Decoder）：**
+
+- 输入：潜在向量（12维）+ 条件变量（2维）
+- 隐藏层1：64维，ReLU激活
+- 隐藏层2：128维，ReLU激活
+- 输出：重建的关卡特征（6维），Sigmoid激活
+
+### 损失函数设计
+
+**总损失函数：** L = L_rec + β × L_kl
+
+- **重建损失 (L_rec)**：均方误差(MSE)损失，衡量重建数据与原始数据的差距
+
+  ```
+  L_rec = MSE(x, x̂) = (1/n) × Σ(x_i - x̂_i)²
+  ```
+
+- **KL散度正则化 (L_kl)**：约束潜在空间分布接近标准正态分布
+
+  ```
+  L_kl = -0.5 × Σ[1 + log(σ²) - μ² - σ²]
+  ```
+
+- **β系数 (β=0.005)**：平衡重建质量与潜在空间正则化，小值确保模型优先关注数据重建
+
+### 训练策略
+
+- **训练轮次**：400 epochs，确保充分收敛
+- **优化器**：Adam，学习率=0.001
+- **批量大小**：8（匹配每关波次数量）
+- **数据标准化**：使用MinMaxScaler将特征归一化到[0,1]区间
+
+## 完整工作流程
+
+### 阶段1：准备训练数据
+
+```bash
+# 将游戏JSON格式转换为训练CSV格式
+python convert_utils.py json2csv Waves_1.json -o Level_1_Summary.csv -d 1
+python convert_utils.py json2csv Waves_2.json -o Level_2_Summary.csv -d 2
+python convert_utils.py json2csv Waves_3.json -o Level_3_Summary.csv -d 3
+```
+
+### 阶段2：训练模型
+
+```bash
+# 运行训练脚本
+python train.py
+```
+
+训练过程会：
+
+1. 加载三个关卡的CSV数据
+2. 应用难度矩阵创建条件变量
+3. 训练CVAE模型400个epoch
+4. 保存模型、scaler和features
+
+### 阶段3：生成新关卡
+
+```bash
+# 运行推理脚本
+python test.py
+```
+
+默认生成三个难度级别（0.2, 0.5, 0.8）的关卡，也可以修改`test.py`中的`target_difficulties`列表自定义。
+
+### 阶段4：转换为游戏格式
+
+```bash
+# 将生成的CSV转换为游戏JSON格式
+python convert_utils.py csv2json Generated_Level_Diff_0.15.csv
+```
+
+生成的JSON文件可直接用于游戏，格式符合`Waves.json`规范。
+
+## 
