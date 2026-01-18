@@ -105,14 +105,6 @@ This prototype is designed data-driven, you can create your personal experience 
 | [SDL_ttf](https://github.com/libsdl-org/SDL_ttf)             | SDL2_ttf-devel-2.22.0-VC                                     |
 | [SDL_mixer](https://github.com/libsdl-org/SDL_mixer)         | SDL2_mixer-devel-2.8.0-VC                                    |
 
-You can directly run the project in Visual Studio in `Release` mode, or mannully build the game using MSVC and CMake by running following commands in cmd from directory of `CMakeLists.txt`, then you'll find the `.exe` file in `build\KingdomRushLite\Release\`
-
-```
-mkdir build
-cd build
-cmake .. -G "Visual Studio 17 2022" -A x64
-cmake --build . --config Release
-```
 
 Notice that the depended libraries are all in MSVC version, if you want to build the project by MinGW, remember to replace the dependencies with corresponding versions
 
@@ -151,8 +143,3 @@ Adam优化器 (学习率=0.001)
 早停机制：监控验证损失防止过拟合
 
 使用：输入样本位置以及需要生成的难度值然后运行文件，将输出的关卡csv用tool.py转换之后就能用于游戏
-
-优点：难度可控，且波次之间难度设计更合理，确保敌人的分布更合理，能根据难度调整节奏；
-模型轻量高效，由pytorch实现，生成快速
-
-未来修改方向：从map-based拓展到game-based，将融合玩家行为数据实现个性化自适应难度生成。
